@@ -17,11 +17,11 @@ public class Aplicacion {
             |      \EEE/         \CCC/         \OOO/     |
             |       \ /           \ /           \ /      |
             |                                            |
-            | M       M   O O O O   D D D D       A      |
-            | M M   M M  O       O  D      D    A   A    |
-            | M  M M  M  O       O  D      D   A A A A   |
-            | M   M   M  O       O  D      D   A     A   |
-            | M       M   O O O O   D D D D    A     A   |
+            |  M       M   O O O O   D D D D       A     |
+            |  M M   M M  O       O  D      D    A   A   |
+            |  M  M M  M  O       O  D      D   A A A A  |
+            |  M   M   M  O       O  D      D   A     A  |
+            |  M       M   O O O O   D D D D    A     A  |
             +--------------------------------------------+
 
  */
