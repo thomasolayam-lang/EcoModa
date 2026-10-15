@@ -2,16 +2,16 @@ public class Inventario {
 
     private String talla;
     private String color;
-    private  int camtidadDisponible;
+    private  int cantidadDisponible;
 
     //Relaciones
     private Prenda prenda;
     private Sucursal sucursal;
 
-    public Inventario(String talla, String color, int camtidadDisponible, Prenda prenda, Sucursal sucursal) {
+    public Inventario(String talla, String color, int cantidadDisponible, Prenda prenda, Sucursal sucursal) {
         this.talla = talla;
         this.color = color;
-        this.camtidadDisponible = camtidadDisponible;
+        this.cantidadDisponible = cantidadDisponible;
         this.prenda = prenda;
         this.sucursal = sucursal;
     }
@@ -33,11 +33,11 @@ public class Inventario {
     }
 
     public int getCamtidadDisponible() {
-        return camtidadDisponible;
+        return cantidadDisponible;
     }
 
     public void setCamtidadDisponible(int camtidadDisponible) {
-        this.camtidadDisponible = camtidadDisponible;
+        this.cantidadDisponible = cantidadDisponible;
     }
 
     public Prenda getPrenda() {
@@ -61,7 +61,7 @@ public class Inventario {
         return "Inventario{" +
                 "Talla:" + talla + '\'' +
                 ", Color:'" + color + '\'' +
-                ", Camtidad Disponible:" + camtidadDisponible +
+                ", Camtidad Disponible:" + cantidadDisponible +
                 ", Prenda:" + prenda +
                 ", Sucursal:" + sucursal ;
     }
