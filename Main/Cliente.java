@@ -24,7 +24,7 @@ public class Cliente extends Persona{
     @Override
     public String toString() {
         return "Cliente{" +
-                "codigoAfiliacion:'" + codigoAfiliacion + '\'' +
+                "codigo de Afiliacion:'" + codigoAfiliacion + '\'' +
                 ", membresia:" + membresia;
     }
 }
