@@ -44,4 +44,5 @@ public class DetalleVenta {
                 ", venta=" + venta +
                 '}';
     }
+    //metodos
 }
