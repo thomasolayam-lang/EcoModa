@@ -13,4 +13,10 @@ public enum Membresia {
     public double getPorcentajeDescuento() {
         return porcentajeDescuento;
     }
+
+    @Override
+    public String toString() {
+        return "Membresia{" +
+                "porcentaje de Descuento=" + porcentajeDescuento+"%";
+    }
 }

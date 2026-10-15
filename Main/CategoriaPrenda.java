@@ -17,4 +17,9 @@ public enum CategoriaPrenda {
         return porcentajeRecargo;
     }
 
+    @Override
+    public String toString() {
+        return "CategoriaPrenda{" +
+                "porcentaje de Recargo:" + porcentajeRecargo+"%";
+    }
 }
