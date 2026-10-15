@@ -9,20 +9,20 @@ public class Aplicacion {
             | |____ | |____ | |__| || |  | | |__| | |__| / /   \ \
             |______| \______|\____/ |_|  |_|\____/|_____/_/     \_\
 
-            +--------------------------------------------+
-            |  \    EEE    / \    CCC    / \    OOO    / |
-            |   \   E     /   \   C     /   \   O O   /  |
-            |    \  EEE  /     \  C    /     \  O O  /   |
-            |     \ E   /       \ C   /       \ O O /    |
-            |      \EEE/         \CCC/         \OOO/     |
-            |       \ /           \ /           \ /      |
-            |                                            |
-            |  M       M   O O O O   D D D D       A     |
-            |  M M   M M  O       O  D      D    A   A   |
-            |  M  M M  M  O       O  D      D   A A A A  |
-            |  M   M   M  O       O  D      D   A     A  |
-            |  M       M   O O O O   D D D D    A     A  |
-            +--------------------------------------------+
+                +--------------------------------------------+
+                |  \    EEE    / \    CCC    / \    OOO    / |
+                |   \   E     /   \   C     /   \   O O   /  |
+                |    \  EEE  /     \  C    /     \  O O  /   |
+                |     \ E   /       \ C   /       \ O O /    |
+                |      \EEE/         \CCC/         \OOO/     |
+                |       \ /           \ /           \ /      |
+                |                                            |
+                |  M       M   O O O O   D D D D       A     |
+                |  M M   M M  O       O  D      D    A   A   |
+                |  M  M M  M  O       O  D      D   A A A A  |
+                |  M   M   M  O       O  D      D   A     A  |
+                |  M       M   O O O O   D D D D    A     A  |
+                +--------------------------------------------+
 
  */
 }
