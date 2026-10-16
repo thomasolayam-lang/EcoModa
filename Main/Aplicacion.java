@@ -15,7 +15,7 @@ public class Aplicacion {
                     |   \   E     /   \   C     /   \   O O   /  |
                     |    \  EEE  /     \  C    /     \  O O  /   |
                     |     \ E   /       \ C   /       \ O O /    |
-                    |      \EEE/         \CCC/         \OOO/     |
+                    |      \EEE/         \CCC/         \OOO/     |+
                     |       \ /           \ /           \ /      |
                     |                                            |
                     |  M       M   O O O O   D D D D       A     |
@@ -50,12 +50,44 @@ public class Aplicacion {
         Inventario inv1 = new Inventario("M", "Negro", 15, p1, sucursalNorte);
         sucursalNorte.registrarInventario(inv1);
 
+// ==================== DATOS QUEMADOS DE PRUEBA ====================
 
+// 1. Crear una venta de prueba
+        Venta ventaPrueba = new Venta("0001", LocalDate.now(), sucursalNorte, v1, c1);
+
+// 2. Crear un detalle de venta (Comprando 2 unidades de la camiseta Polo)
+        DetalleVenta detallePrueba = new DetalleVenta(2, inv1, ventaPrueba);
+        ventaPrueba.agregarDetalle(detallePrueba);
+
+// 3. Confirmar la venta (esto descuenta el stock de 15 a 13 en inv1)
+        if (sucursalNorte.registrarVenta(ventaPrueba)) {
+
+            // 4. Registrar la venta en los historiales del Cliente y del Vendedor
+            c1.getComprasRealizadas().add(ventaPrueba);
+            v1.getVentasRealizadas().add(ventaPrueba);
+
+            System.out.println(">>  Venta de prueba instanciada con éxito <<");
+        }
+// =================================================================
 
         int opcion;
 
         do {
-            System.out.println("===== SISTEMA ECOMODA =====");
+            System.out.println("===== SISTEMA ECOMODA ===== \n"+
+                    "                    +--------------------------------------------+\n" +
+                    "                    |  \\    EEE    / \\    CCC    / \\    OOO    / |\n" +
+                    "                    |   \\   E     /   \\   C     /   \\   O O   /  |\n" +
+                    "                    |    \\  EEE  /     \\  C    /     \\  O O  /   |\n" +
+                    "                    |     \\ E   /       \\ C   /       \\ O O /    |\n" +
+                    "                    |      \\EEE/         \\CCC/         \\OOO/     |\n" +
+                    "                    |       \\ /           \\ /           \\ /      |\n" +
+                    "                    |                                            |\n" +
+                    "                    |  M       M   O O O O   D D D D       A     |\n" +
+                    "                    |  M M   M M  O       O  D      D    A   A   |\n" +
+                    "                    |  M  M M  M  O       O  D      D   A A A A  |\n" +
+                    "                    |  M   M   M  O       O  D      D   A     A  |\n" +
+                    "                    |  M       M   O O O O   D D D D    A     A  |\n" +
+                    "                    +--------------------------------------------+\n");
             System.out.println("1. Registrar prenda en catálogo global ");
             System.out.println("2. Registrar cliente ");
             System.out.println("3. Registrar vendedor ");
