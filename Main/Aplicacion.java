@@ -445,6 +445,9 @@ public class Aplicacion {
                                     if (nuevaVenta.getDetalles().isEmpty()) {
                                         System.out.println("Venta cancelada, no se agregaron prendas");
                                     } else if (sucursalVenta.registrarVenta(nuevaVenta)) {
+
+                                        clienteVenta.getComprasRealizadas().add(nuevaVenta);
+
                                         System.out.println("Venta registrada correctamente");
                                         System.out.println("Total de la venta: $" + nuevaVenta.getTotalVenta());
                                     } else {
