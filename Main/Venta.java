@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Venta {
 
@@ -6,18 +8,26 @@ public class Venta {
     private LocalDate fecha;
     private double totalVenta;
 
-    //relaciones
+    // Relaciones según UML
     private Sucursal sucursal;
     private Vendedor vendedor;
+    private Cliente cliente; // <-- Agregado: indispensable para descuentos
 
-    public Venta(String codigo, LocalDate fecha, double totalVenta, Sucursal sucursal, Vendedor vendedor) {
+    // Listas / Composición
+    private List<DetalleVenta> detalles;
+
+    // Se remueve totalVenta como parámetro del constructor (arranca en 0.0)
+    public Venta(String codigo, LocalDate fecha, Sucursal sucursal, Vendedor vendedor, Cliente cliente) {
         this.codigo = codigo;
         this.fecha = fecha;
-        this.totalVenta = totalVenta;
         this.sucursal = sucursal;
         this.vendedor = vendedor;
+        this.cliente = cliente;
+        this.totalVenta = 0.0;
+        this.detalles = new ArrayList<>();
     }
 
+    // Getters y Setters
     public String getCodigo() {
         return codigo;
     }
@@ -38,10 +48,6 @@ public class Venta {
         return totalVenta;
     }
 
-    public void setTotalVenta(double totalVenta) {
-        this.totalVenta = totalVenta;
-    }
-
     public Sucursal getSucursal() {
         return sucursal;
     }
@@ -58,46 +64,69 @@ public class Venta {
         this.vendedor = vendedor;
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<DetalleVenta> getDetalles() {
+        return detalles;
+    }
+
     @Override
     public String toString() {
         return "Venta{" +
                 "codigo='" + codigo + '\'' +
                 ", fecha=" + fecha +
                 ", totalVenta=" + totalVenta +
-                ", sucursal=" + sucursal +
-                ", vendedor=" + vendedor +
+                ", sucursal=" + (sucursal != null ? sucursal.getNombre() : "N/A") +
+                ", vendedor=" + (vendedor != null ? vendedor.getNombre() : "N/A") +
+                ", cliente=" + (cliente != null ? cliente.getNombre() : "N/A") +
+                ", numDetalles=" + detalles.size() +
                 '}';
     }
 
+    // ==================== MÉTODOS DE NEGOCIO ====================
 
-    //                                           METODOS
+    // Método para agregar un detalle a la venta
+    public boolean agregarDetalle(DetalleVenta detalle) {
+        if (detalle != null) {
+            this.detalles.add(detalle);
+            calcularTotalVenta(); // Re-calcula el total provisional
+            return true;
+        }
+        return false;
+    }
 
-    //Metodo para calcular el valor total de la venta
+    // Método para calcular el valor total de la venta
     public double calcularTotalVenta() {
         double total = 0.0;
         for (DetalleVenta detalle : this.detalles) {
-            // Llama al método de DetalleVenta para obtener subtotal (que ya descuenta la membresía)
             total += detalle.calcularSubTotal();
         }
         this.totalVenta = total;
         return total;
     }
-//  metodo para confirmar la venta
+
+    // Método para confirmar la venta
     public boolean confirmarVenta() {
         // 1. Validar que la venta tenga productos
         if (this.detalles.isEmpty()) {
             return false;
         }
 
-        // 2. Paso 1: Verificar que HAYA STOCK suficiente para TODOS los ítems antes de modificar nada
+        // 2. Verificar que haya stock suficiente para todos los ítems antes de modificar
         for (DetalleVenta detalle : this.detalles) {
             Inventario inv = detalle.getInventario();
             if (!inv.verificarStock(detalle.getCantidad())) {
-                return false; // Si tan solo un producto no tiene stock suficiente, se cancela la venta
+                return false; // Si falta stock en alguno, no procesa la compra
             }
         }
 
-        // 3. Paso 2: Si todos tienen stock, procedemos a descontar el stock de cada inventario
+        // 3. Descontar el stock de cada inventario
         for (DetalleVenta detalle : this.detalles) {
             Inventario inv = detalle.getInventario();
             inv.descontarStock(detalle.getCantidad());
@@ -106,15 +135,5 @@ public class Venta {
         // 4. Recalcular el total final
         calcularTotalVenta();
         return true;
-    }
-
-    //metodo para agregar el detalle
-    public boolean agregarDetalle(DetalleVenta detalle) {
-        if (detalle != null) {
-            this.detalles.add(detalle);
-            calcularTotalVenta(); // Re-calcula el total provisional
-            return true;
-        }
-        return false;
     }
 }
