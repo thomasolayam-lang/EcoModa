@@ -56,14 +56,15 @@ public class Aplicacion {
 
         do {
             System.out.println("===== SISTEMA ECOMODA =====");
-            System.out.println("1. Registrar prenda en catálogo global (Req 1)");
-            System.out.println("2. Registrar cliente (Req 2)");
-            System.out.println("3. Registrar existencias en sucursal (Req 3)");
-            System.out.println("4. Consultar prendas disponibles en una sucursal");
-            System.out.println("5. Registrar una venta");
-            System.out.println("6. Consultar prendas agotadas");
-            System.out.println("7. Historial de movimientos (Clientes/Vendedores)");
-            System.out.println("8. Estadísticas del negocio (Ingresos/Top Ventas)");
+            System.out.println("1. Registrar prenda en catálogo global ");
+            System.out.println("2. Registrar cliente ");
+            System.out.println("3. Registrar vendedor ");
+            System.out.println("4. Registrar existencias en sucursal ");
+            System.out.println("5. Consultar prendas disponibles en una sucursal");
+            System.out.println("6. Venta completa, precios unitarios y total");
+            System.out.println("7. Consultar prendas agotadas");
+            System.out.println("8. Historial de movimientos (Clientes/Vendedores)");
+            System.out.println("9. Estadísticas del negocio (Ingresos/Top Ventas)");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -73,6 +74,7 @@ public class Aplicacion {
             switch (opcion) {
 
                 case 1: {
+                    //1. Registrar prenda en catálogo global
                     System.out.println("\n--- REGISTRAR NUEVA PRENDA ---");
                     System.out.print("Código de la prenda: ");
                     String codigo = scanner.nextLine();
@@ -107,6 +109,7 @@ public class Aplicacion {
                 }
 
                 case 2: {
+                    //2. Registrar cliente
                     System.out.println("\n--- REGISTRAR NUEVO CLIENTE ---");
                     System.out.print("Documento de identidad: ");
                     String doc = scanner.nextLine();
@@ -141,99 +144,505 @@ public class Aplicacion {
                     }
                     break;
                 }
+                                case 3: {
+                                    //3. Registrar vendedor
+                                    System.out.print("Código de la sucursal del vendedor: ");
+                                    String codSucursal = scanner.nextLine();
 
-                case 3: {
-                    System.out.println("\n--- REGISTRAR INVENTARIO EN SUCURSAL ---");
+                                    Sucursal sucursalVendedor = null;
 
-                    System.out.print("Código de la sucursal (Ej. SUC-01): ");
-                    String codSucursal = scanner.nextLine();
-                    Sucursal sucursalEncontrada = null;
+                                    // Buscar la sucursal por su código
+                                    for (Sucursal s : ecomoda.getListaSucursalesE()) {
+                                        if (s.getCodigo().equalsIgnoreCase(codSucursal)) {
+                                            sucursalVendedor = s;
+                                            break;
+                                        }
+                                    }
 
-                    // Buscar sucursal
-                    for (Sucursal s : ecomoda.getListaSucursalesE()) {
-                        if (s.getCodigo().equalsIgnoreCase(codSucursal)) {
-                            sucursalEncontrada = s;
-                            break;
-                        }
+                                    // Verificar si la sucursal existe
+                                    if (sucursalVendedor == null) {
+                                        System.out.println("La sucursal no existe");
+                                        break;
+                                    }
+
+                                    System.out.print("Documento de identidad: ");
+                                    String docVendedor = scanner.nextLine();
+
+                                    // Verificar que no exista otro vendedor con ese documento
+                                    boolean documentoRepetido = false;
+
+                                    for (Sucursal s : ecomoda.getListaSucursalesE()) {
+                                        for (Vendedor v : s.getListaVendedores()) {
+                                            if (v.getDocumentoIdentidad().equalsIgnoreCase(docVendedor)) {
+                                                documentoRepetido = true;
+                                            }
+                                        }
+                                    }
+
+                                    if (documentoRepetido) {
+                                        System.out.println("Ya existe un vendedor con ese documento");
+                                        break;
+                                    }
+
+                                    System.out.print("Nombre completo: ");
+                                    String nombreVendedor = scanner.nextLine();
+
+                                    System.out.print("Email: ");
+                                    String emailVendedor = scanner.nextLine();
+
+                                    System.out.print("Teléfono: ");
+                                    String telVendedor = scanner.nextLine();
+
+                                    System.out.print("Código de empleado: ");
+                                    String codEmpleado = scanner.nextLine();
+
+                                    System.out.print("Año de contratación: ");
+                                    int anio = scanner.nextInt();
+
+                                    System.out.print("Mes de contratación: ");
+                                    int mes = scanner.nextInt();
+
+                                    System.out.print("Día de contratación: ");
+                                    int dia = scanner.nextInt();
+
+                                    System.out.print("Salario básico: ");
+                                    double salario = scanner.nextDouble();
+                                    scanner.nextLine();
+
+                                    Vendedor nuevoVendedor = new Vendedor(docVendedor, nombreVendedor, emailVendedor, telVendedor,
+                                            codEmpleado, LocalDate.of(anio, mes, dia), salario);
+
+                                    if (sucursalVendedor.registrarVendedor(nuevoVendedor)) {
+                                        System.out.println("Vendedor registrado correctamente");
+                                    } else {
+                                        System.out.println("No se pudo registrar el vendedor");
+                                    }
+
+                                    break;
+                                }
+
+                                case 4: {
+                                    //4. Registrar existencias en sucursal
+                                    System.out.print("Código de la sucursal (Ej. SUC-01): ");
+                                    String codSucursal = scanner.nextLine();
+
+                                    Sucursal sucursalInventario = null;
+
+                                    // Buscar la sucursal por su código
+                                    for (Sucursal s : ecomoda.getListaSucursalesE()) {
+                                        if (s.getCodigo().equalsIgnoreCase(codSucursal)) {
+                                            sucursalInventario = s;
+                                            break;
+                                        }
+                                    }
+
+                                    if (sucursalInventario == null) {
+                                        System.out.println("La sucursal no existe");
+                                        break;
+                                    }
+
+                                    System.out.print("Código de la prenda (Ej. PR-001): ");
+                                    String codPrenda = scanner.nextLine();
+
+                                    Prenda prendaInventario = null;
+
+                                    // Buscar la prenda en el catálogo
+                                    for (Prenda p : ecomoda.getListaCatalogoPrendas()) {
+                                        if (p.getCodigo().equalsIgnoreCase(codPrenda)) {
+                                            prendaInventario = p;
+                                            break;
+                                        }
+                                    }
+
+                                    if (prendaInventario == null) {
+                                        System.out.println("La prenda no existe en el catálogo");
+                                        break;
+                                    }
+
+                                    System.out.print("Talla (Ej. S, M, L, 32): ");
+                                    String talla = scanner.nextLine();
+
+                                    System.out.print("Color: ");
+                                    String color = scanner.nextLine();
+
+                                    System.out.print("Cantidad a ingresar: ");
+                                    int cantidad = scanner.nextInt();
+                                    scanner.nextLine();
+
+                                    if (cantidad <= 0) {
+                                        System.out.println("Cantidad incorrecta");
+                                        break;
+                                    }
+
+                                    Inventario nuevoInventario = new Inventario(talla, color, cantidad, prendaInventario, sucursalInventario);
+
+                                    if (sucursalInventario.registrarInventario(nuevoInventario)) {
+                                        System.out.println("Existencias registradas correctamente");
+                                    } else {
+                                        System.out.println("No se pudo registrar el inventario");
+                                    }
+
+                                    break;
+                                }
+
+                                case 5: {
+                                    //5. Consultar prendas disponibles en una sucursal
+                                    System.out.print("Código de la sucursal (Ej. SUC-01): ");
+                                    String codSucursal = scanner.nextLine();
+
+                                    Sucursal sucursalConsulta = null;
+
+                                    for (Sucursal s : ecomoda.getListaSucursalesE()) {
+                                        if (s.getCodigo().equalsIgnoreCase(codSucursal)) {
+                                            sucursalConsulta = s;
+                                            break;
+                                        }
+                                    }
+
+                                    if (sucursalConsulta == null) {
+                                        System.out.println("La sucursal no existe");
+                                        break;
+                                    }
+
+                                    List<Inventario> disponibles = sucursalConsulta.consultarPrendasDisponibles();
+
+                                    if (disponibles.isEmpty()) {
+                                        System.out.println("No hay prendas disponibles en esta sucursal");
+                                    } else {
+                                        System.out.println("Prendas disponibles en " + sucursalConsulta.getNombre() + ":");
+
+                                        for (Inventario inv : disponibles) {
+                                            System.out.println("- " + inv.getPrenda().getNombre() +
+                                                    " | Talla: " + inv.getTalla() +
+                                                    " | Color: " + inv.getColor() +
+                                                    " | Cantidad: " + inv.getCantidadDisponible());
+                                        }
+                                    }
+
+                                    break;
+                                }
+
+                                case 6: {
+                                    //6. Venta completa, precios unitarios y total
+                                    System.out.print("Código de la sucursal (Ej. SUC-01): ");
+                                    String codSucursal = scanner.nextLine();
+
+                                    Sucursal sucursalVenta = null;
+
+                                    for (Sucursal s : ecomoda.getListaSucursalesE()) {
+                                        if (s.getCodigo().equalsIgnoreCase(codSucursal)) {
+                                            sucursalVenta = s;
+                                            break;
+                                        }
+                                    }
+
+                                    if (sucursalVenta == null) {
+                                        System.out.println("La sucursal no existe");
+                                        break;
+                                    }
+
+                                    System.out.print("Documento del vendedor (Ej. 303030): ");
+                                    String docVendedor = scanner.nextLine();
+
+                                    Vendedor vendedorVenta = null;
+
+                                    for (Vendedor v : sucursalVenta.getListaVendedores()) {
+                                        if (v.getDocumentoIdentidad().equalsIgnoreCase(docVendedor)) {
+                                            vendedorVenta = v;
+                                            break;
+                                        }
+                                    }
+
+                                    if (vendedorVenta == null) {
+                                        System.out.println("El vendedor no existe en esta sucursal");
+                                        break;
+                                    }
+
+                                    System.out.print("Documento del cliente (Ej. 101010): ");
+                                    String docCliente = scanner.nextLine();
+
+                                    Cliente clienteVenta = null;
+
+                                    for (Cliente c : ecomoda.getListaClientes()) {
+                                        if (c.getDocumentoIdentidad().equalsIgnoreCase(docCliente)) {
+                                            clienteVenta = c;
+                                            break;
+                                        }
+                                    }
+
+                                    if (clienteVenta == null) {
+                                        System.out.println("El cliente no está registrado");
+                                        break;
+                                    }
+
+                                    System.out.print("Código de la venta (Ej. V-001): ");
+                                    String codVenta = scanner.nextLine();
+
+                                    Venta nuevaVenta = new Venta(codVenta, LocalDate.now(), sucursalVenta, vendedorVenta, clienteVenta);
+
+                                    // Agregar las prendas a la venta
+                                    String agregarOtra;
+
+                                    do {
+                                        System.out.print("Código de la prenda (Ej. PR-001): ");
+                                        String codPrenda = scanner.nextLine();
+
+                                        System.out.print("Talla (Ej. M): ");
+                                        String talla = scanner.nextLine();
+
+                                        System.out.print("Color (Ej. Negro): ");
+                                        String color = scanner.nextLine();
+
+                                        Inventario inventarioVenta = null;
+
+                                        // Buscar la prenda en el inventario de la sucursal
+                                        for (Inventario inv : sucursalVenta.getListaInventario()) {
+                                            if (inv.getPrenda().getCodigo().equalsIgnoreCase(codPrenda) &&
+                                                    inv.getTalla().equalsIgnoreCase(talla) &&
+                                                    inv.getColor().equalsIgnoreCase(color)) {
+                                                inventarioVenta = inv;
+                                                break;
+                                            }
+                                        }
+
+                                        if (inventarioVenta == null) {
+                                            System.out.println("No existe esa prenda con esa talla y color en la sucursal");
+                                        } else {
+                                            // Contar las unidades de esta prenda que ya están en la venta
+                                            int yaAgregadas = 0;
+
+                                            for (DetalleVenta d : nuevaVenta.getDetalles()) {
+                                                if (d.getInventario().equals(inventarioVenta)) {
+                                                    yaAgregadas = yaAgregadas + d.getCantidad();
+                                                }
+                                            }
+
+                                            int stockRestante = inventarioVenta.getCantidadDisponible() - yaAgregadas;
+
+                                            System.out.print("Cantidad a llevar (disponibles: " + stockRestante + "): ");
+                                            int cantidad = scanner.nextInt();
+                                            scanner.nextLine();
+
+                                            // Verificar que haya stock suficiente
+                                            if (cantidad > 0 && cantidad <= stockRestante) {
+                                                DetalleVenta detalle = new DetalleVenta(cantidad, inventarioVenta, nuevaVenta);
+                                                nuevaVenta.agregarDetalle(detalle);
+
+                                                System.out.println("Prenda agregada");
+                                                System.out.println("Precio unitario final: $" + detalle.calcularPrecioUnitario());
+                                                System.out.println("Subtotal: $" + detalle.calcularSubTotal());
+                                            } else {
+                                                System.out.println("Cantidad incorrecta o stock insuficiente");
+                                            }
+                                        }
+
+                                        System.out.print("¿Desea agregar otra prenda? (s/n): ");
+                                        agregarOtra = scanner.nextLine();
+
+                                    } while (agregarOtra.equalsIgnoreCase("s"));
+
+                                    // Confirmar la venta
+                                    if (nuevaVenta.getDetalles().isEmpty()) {
+                                        System.out.println("Venta cancelada, no se agregaron prendas");
+                                    } else if (sucursalVenta.registrarVenta(nuevaVenta)) {
+                                        System.out.println("Venta registrada correctamente");
+                                        System.out.println("Total de la venta: $" + nuevaVenta.getTotalVenta());
+                                    } else {
+                                        System.out.println("No se pudo registrar la venta");
+                                    }
+
+                                    break;
+                                }
+
+                                case 7: {
+                                    //7. Consultar prendas agotadas
+                                    System.out.print("Código de la sucursal (Ej. SUC-01): ");
+                                    String codSucursal = scanner.nextLine();
+
+                                    Sucursal sucursalAgotadas = null;
+
+                                    for (Sucursal s : ecomoda.getListaSucursalesE()) {
+                                        if (s.getCodigo().equalsIgnoreCase(codSucursal)) {
+                                            sucursalAgotadas = s;
+                                            break;
+                                        }
+                                    }
+
+                                    if (sucursalAgotadas == null) {
+                                        System.out.println("La sucursal no existe");
+                                        break;
+                                    }
+
+                                    List<Inventario> agotadas = sucursalAgotadas.consultarPrendasAgotadas();
+
+                                    if (agotadas.isEmpty()) {
+                                        System.out.println("No hay prendas agotadas en esta sucursal");
+                                    } else {
+                                        System.out.println("Prendas agotadas en " + sucursalAgotadas.getNombre() + ":");
+
+                                        for (Inventario inv : agotadas) {
+                                            System.out.println("- " + inv.getPrenda().getNombre() +
+                                                    " | Talla: " + inv.getTalla() +
+                                                    " | Color: " + inv.getColor());
+                                        }
+                                    }
+
+                                    break;
+                                }
+
+                                case 8: {
+                                    //8. Historial de movimientos
+                                    System.out.println("1. Ver compras de un cliente");
+                                    System.out.println("2. Ver ventas de un vendedor");
+                                    System.out.print("Seleccione una opción: ");
+                                    int opcHistorial = scanner.nextInt();
+                                    scanner.nextLine();
+
+                                    if (opcHistorial == 1) {
+                                        System.out.print("Documento del cliente (Ej. 101010): ");
+                                        String docCliente = scanner.nextLine();
+
+                                        Cliente clienteHistorial = null;
+
+                                        for (Cliente c : ecomoda.getListaClientes()) {
+                                            if (c.getDocumentoIdentidad().equalsIgnoreCase(docCliente)) {
+                                                clienteHistorial = c;
+                                                break;
+                                            }
+                                        }
+
+                                        if (clienteHistorial == null) {
+                                            System.out.println("El cliente no existe");
+                                            break;
+                                        }
+
+                                        List<Venta> compras = clienteHistorial.getComprasRealizadas();
+
+                                        if (compras == null || compras.isEmpty()) {
+                                            System.out.println("El cliente no ha realizado compras");
+                                        } else {
+                                            System.out.println("Compras de " + clienteHistorial.getNombre() + ":");
+
+                                            for (Venta v : compras) {
+                                                System.out.println("- Venta: " + v.getCodigo() +
+                                                        " | Fecha: " + v.getFecha() +
+                                                        " | Total: $" + v.getTotalVenta());
+                                            }
+                                        }
+
+                                    } else if (opcHistorial == 2) {
+                                        System.out.print("Código de la sucursal del vendedor: ");
+                                        String codSucursal = scanner.nextLine();
+
+                                        Sucursal sucursalHistorial = null;
+
+                                        for (Sucursal s : ecomoda.getListaSucursalesE()) {
+                                            if (s.getCodigo().equalsIgnoreCase(codSucursal)) {
+                                                sucursalHistorial = s;
+                                                break;
+                                            }
+                                        }
+
+                                        if (sucursalHistorial == null) {
+                                            System.out.println("La sucursal no existe");
+                                            break;
+                                        }
+
+                                        System.out.print("Documento del vendedor (Ej. 303030): ");
+                                        String docVendedor = scanner.nextLine();
+
+                                        Vendedor vendedorHistorial = null;
+
+                                        for (Vendedor v : sucursalHistorial.getListaVendedores()) {
+                                            if (v.getDocumentoIdentidad().equalsIgnoreCase(docVendedor)) {
+                                                vendedorHistorial = v;
+                                                break;
+                                            }
+                                        }
+
+                                        if (vendedorHistorial == null) {
+                                            System.out.println("El vendedor no existe en esta sucursal");
+                                            break;
+                                        }
+
+                                        List<Venta> ventas = vendedorHistorial.getVentasRealizadas();
+
+                                        if (ventas == null || ventas.isEmpty()) {
+                                            System.out.println("El vendedor no ha realizado ventas");
+                                        } else {
+                                            System.out.println("Ventas de " + vendedorHistorial.getNombre() + ":");
+
+                                            for (Venta v : ventas) {
+                                                System.out.println("- Venta: " + v.getCodigo() +
+                                                        " | Fecha: " + v.getFecha() +
+                                                        " | Total: $" + v.getTotalVenta());
+                                            }
+                                        }
+
+                                    } else {
+                                        System.out.println("Opción incorrecta");
+                                    }
+
+                                    break;
+                                }
+
+                                case 9: {
+                                    //9. Estadísticas del negocio
+                                    System.out.println("1. Ingresos totales de una sucursal");
+                                    System.out.println("2. Prenda más vendida de la empresa");
+                                    System.out.print("Seleccione una opción: ");
+                                    int opcEstadistica = scanner.nextInt();
+                                    scanner.nextLine();
+
+                                    if (opcEstadistica == 1) {
+                                        System.out.print("Código de la sucursal (Ej. SUC-01): ");
+                                        String codSucursal = scanner.nextLine();
+
+                                        Sucursal sucursalIngresos = null;
+
+                                        for (Sucursal s : ecomoda.getListaSucursalesE()) {
+                                            if (s.getCodigo().equalsIgnoreCase(codSucursal)) {
+                                                sucursalIngresos = s;
+                                                break;
+                                            }
+                                        }
+
+                                        if (sucursalIngresos == null) {
+                                            System.out.println("La sucursal no existe");
+                                            break;
+                                        }
+
+                                        System.out.println("Ingresos totales de " + sucursalIngresos.getNombre() +
+                                                ": $" + sucursalIngresos.calcularIngresosTotales());
+
+                                    } else if (opcEstadistica == 2) {
+                                        Prenda prendaTop = ecomoda.calcularPrendaMasVendida();
+
+                                        if (prendaTop == null) {
+                                            System.out.println("Todavía no hay ventas registradas");
+                                        } else {
+                                            System.out.println("Prenda más vendida: " + prendaTop.getNombre() +
+                                                    " | Código: " + prendaTop.getCodigo() +
+                                                    " | Marca: " + prendaTop.getMarca());
+                                        }
+
+                                    } else {
+                                        System.out.println("Opción incorrecta");
+                                    }
+
+                                    break;
+                                }
+
+                                case 0:
+                                    System.out.println("Cerrando el sistema de Ecomoda... ¡Hasta luego!");
+                                    break;
+
+                                default:
+                                    System.out.println("Opción incorrecta, por favor intente nuevamente.");
+                            }
+
+                        } while (opcion != 0);
+
+                        scanner.close();
                     }
-
-                    if (sucursalEncontrada == null) {
-                        System.out.println("Error: Sucursal no encontrada.");
-                        break;
-                    }
-
-                    System.out.print("Código de la prenda del catálogo (Ej. PR-001): ");
-                    String codPrenda = scanner.nextLine();
-                    Prenda prendaEncontrada = null;
-
-                    // Buscar prenda
-                    for (Prenda p : ecomoda.getListaCatalogoPrendas()) {
-                        if (p.getCodigo().equalsIgnoreCase(codPrenda)) {
-                            prendaEncontrada = p;
-                            break;
-                        }
-                    }
-
-                    if (prendaEncontrada == null) {
-                        System.out.println("Error: La prenda no existe en el catálogo global.");
-                        break;
-                    }
-
-                    System.out.print("Talla (Ej. S, M, L, 32): ");
-                    String talla = scanner.nextLine();
-
-                    System.out.print("Color: ");
-                    String color = scanner.nextLine();
-
-                    System.out.print("Cantidad a ingresar: ");
-                    int cantidad = scanner.nextInt();
-                    scanner.nextLine();
-
-                    Inventario nuevoInventario = new Inventario(talla, color, cantidad, prendaEncontrada, sucursalEncontrada);
-
-                    if (sucursalEncontrada.registrarInventario(nuevoInventario)) {
-                        System.out.println("¡Stock registrado/actualizado en la sucursal con éxito!");
-                    } else {
-                        System.out.println("Error al registrar el inventario.");
-                    }
-                    break;
                 }
-
-                case 4: {
-                    System.out.println("\n--- (Próximo paso: Consultar disponibilidad) ---");
-                    break;
-                }
-
-                case 5: {
-                    System.out.println("\n--- (Próximo paso: Registrar Venta) ---");
-                    break;
-                }
-
-                case 6: {
-                    System.out.println("\n--- (Próximo paso: Consultar Agotados) ---");
-                    break;
-                }
-
-                case 7: {
-                    System.out.println("\n--- (Próximo paso: Historial Clientes/Vendedores) ---");
-                    break;
-                }
-
-                case 8: {
-                    System.out.println("\n--- (Próximo paso: Estadísticas Financieras) ---");
-                    break;
-                }
-
-                case 0:
-                    System.out.println("Cerrando el sistema de Ecomoda... ¡Hasta luego!");
-                    break;
-
-                default:
-                    System.out.println("Opción incorrecta, por favor intente nuevamente.");
-            }
-
-        } while (opcion != 0);
-
-        scanner.close();
-    }
-}
