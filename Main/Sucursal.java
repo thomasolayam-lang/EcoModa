@@ -94,7 +94,7 @@ public class Sucursal {
                     inv.getColor().equalsIgnoreCase(inventario.getColor())) {
 
                 // Si ya existe, sumamos el stock recibido al stock actual
-                inv.aumentarStock(inventario.getCantidadDisponible());
+                inv.aumentarStock(inventario.getCamtidadDisponible());
                 return true;
             }
         }
@@ -129,7 +129,7 @@ public class Sucursal {
     public List<Inventario> consultarPrendasAgotadas() {
         List<Inventario> agotadas = new ArrayList<>();
         for (Inventario inv : this.listaInventario) {
-            if (inv.getCantidadDisponible() == 0) {
+            if (inv.getCamtidadDisponible() == 0) {
                 agotadas.add(inv);
             }
         }
@@ -140,7 +140,7 @@ public class Sucursal {
     public List<Inventario> consultarPrendasDisponibles() {
         List<Inventario> disponibles = new ArrayList<>();
         for (Inventario inv : this.listaInventario) {
-            if (inv.getCantidadDisponible() > 0) {
+            if (inv.getCamtidadDisponible() > 0) {
                 disponibles.add(inv);
             }
         }
