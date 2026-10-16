@@ -85,10 +85,16 @@ public class Sucursal {
 
     // Registrar un nuevo vendedor en la sucursal
     public boolean registrarVendedor(Vendedor vendedor) {
-        if (vendedor != null && !this.listaVendedores.contains(vendedor)) {
-            return this.listaVendedores.add(vendedor);
+        if (vendedor == null) {
+            return false;
         }
-        return false;
+
+        for (Vendedor v : this.listaVendedores) {
+            if (v.getDocumentoIdentidad().equalsIgnoreCase(vendedor.getDocumentoIdentidad())) {
+                return false; // Ya existe un vendedor con ese documento en la sucursal
+            }
+        }
+        return this.listaVendedores.add(vendedor);
     }
     // Registrar o actualizar inventario
     public boolean registrarInventario(Inventario inventario) {
