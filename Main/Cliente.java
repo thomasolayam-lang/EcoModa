@@ -1,6 +1,8 @@
 public class Cliente extends Persona{
 
     private String codigoAfiliacion;
+
+    //relación con enum
     private Membresia membresia;
 
     public Cliente(String documentoIdentidad, String nombre, String email, String telefono, String codigoAfiliacion, Membresia membresia) {

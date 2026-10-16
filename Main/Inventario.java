@@ -32,11 +32,11 @@ public class Inventario {
         this.color = color;
     }
 
-    public int getCamtidadDisponible() {
+    public int getCantidadDisponible() {
         return cantidadDisponible;
     }
 
-    public void setCamtidadDisponible(int camtidadDisponible) {
+    public void setCantidadDisponible(int cantidadDisponible) {
         this.cantidadDisponible = cantidadDisponible;
     }
 
@@ -63,7 +63,7 @@ public class Inventario {
                 ", Color:'" + color + '\'' +
                 ", Camtidad Disponible:" + cantidadDisponible +
                 ", Prenda:" + prenda +
-                ", Sucursal:" + sucursal ;
+                ", Sucursal:" + sucursal + '}' ;
     }
 
     //                                                  METODOS

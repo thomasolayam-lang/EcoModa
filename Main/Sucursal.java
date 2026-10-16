@@ -83,6 +83,13 @@ public class Sucursal {
 
     // ==================== MÉTODOS DE NEGOCIO ====================
 
+    // Registrar un nuevo vendedor en la sucursal
+    public boolean registrarVendedor(Vendedor vendedor) {
+        if (vendedor != null && !this.listaVendedores.contains(vendedor)) {
+            return this.listaVendedores.add(vendedor);
+        }
+        return false;
+    }
     // Registrar o actualizar inventario
     public boolean registrarInventario(Inventario inventario) {
         if (inventario == null) return false;
@@ -94,7 +101,7 @@ public class Sucursal {
                     inv.getColor().equalsIgnoreCase(inventario.getColor())) {
 
                 // Si ya existe, sumamos el stock recibido al stock actual
-                inv.aumentarStock(inventario.getCamtidadDisponible());
+                inv.aumentarStock(inventario.getCantidadDisponible());
                 return true;
             }
         }
@@ -129,7 +136,7 @@ public class Sucursal {
     public List<Inventario> consultarPrendasAgotadas() {
         List<Inventario> agotadas = new ArrayList<>();
         for (Inventario inv : this.listaInventario) {
-            if (inv.getCamtidadDisponible() == 0) {
+            if (inv.getCantidadDisponible() == 0) {
                 agotadas.add(inv);
             }
         }
@@ -140,7 +147,7 @@ public class Sucursal {
     public List<Inventario> consultarPrendasDisponibles() {
         List<Inventario> disponibles = new ArrayList<>();
         for (Inventario inv : this.listaInventario) {
-            if (inv.getCamtidadDisponible() > 0) {
+            if (inv.getCantidadDisponible() > 0) {
                 disponibles.add(inv);
             }
         }

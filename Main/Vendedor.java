@@ -49,11 +49,23 @@ public class Vendedor extends Persona{
         this.ventasRealizadas = ventasRealizadas;
     }
 
+
     @Override
     public String toString() {
         return "Vendedor{" +
                 "codigo de Empleado:'" + codigoEmpleado + '\'' +
                 ", Fecha de Contratacion:" + FechaContratacion +
                 ", Salario Basico:" + salarioBasico;
+    }
+
+    //Métodos
+    public List<Venta> consultarVentas() {
+        return this.ventasRealizadas;
+    }
+
+    public void registrarVenta(Venta venta) {
+        if (venta != null) {
+            this.ventasRealizadas.add(venta);
+        }
     }
 }

@@ -95,7 +95,7 @@ public class Venta {
     public boolean agregarDetalle(DetalleVenta detalle) {
         if (detalle != null) {
             this.detalles.add(detalle);
-            calcularTotalVenta(); // Re-calcula el total provisional
+            calcularTotalVenta();
             return true;
         }
         return false;
