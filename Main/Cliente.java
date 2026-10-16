@@ -27,4 +27,11 @@ public class Cliente extends Persona{
                 "codigo de Afiliacion:'" + codigoAfiliacion + '\'' +
                 ", membresia:" + membresia;
     }
+    //Métodos
+    public double obtenerPorcentajeDescuento() {
+        if (this.membresia != null) {
+            return this.membresia.getPorcentajeDescuento();
+        }
+        return 0.0;
+    }
 }
