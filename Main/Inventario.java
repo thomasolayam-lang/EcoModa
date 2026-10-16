@@ -65,4 +65,28 @@ public class Inventario {
                 ", Prenda:" + prenda +
                 ", Sucursal:" + sucursal ;
     }
+
+    //                                                  METODOS
+
+    //verificar Stock
+    public boolean verificarStock(int cantidad) {
+        return cantidad > 0 && this.cantidadDisponible >= cantidad;
+    }
+
+    //descontar Strock
+
+    public boolean descontarStock(int cantidad) {
+        if (verificarStock(cantidad)) {
+            this.cantidadDisponible -= cantidad;
+            return true;
+        }
+        return false; // No hay suficiente stock disponible
+    }
+//aumentar Stock
+    public void aumentarStock(int cantidad) {
+        if (cantidad > 0) {
+            this.cantidadDisponible += cantidad;
+        }
+    }
+    
 }
