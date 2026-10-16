@@ -90,18 +90,32 @@ public class Empresa {
 
     // Método para registrar prenda en el catálogo global
     public boolean registrarPrenda(Prenda prenda) {
-        if (prenda != null && !this.listaCatalogoPrendas.contains(prenda)) {
-            return this.listaCatalogoPrendas.add(prenda);
+        if (prenda == null) {
+            return false;
         }
-        return false;
+
+        for (Prenda p : this.listaCatalogoPrendas) {
+            if (p.getCodigo().equalsIgnoreCase(prenda.getCodigo())) {
+                return false;
+            }
+        }
+
+        return this.listaCatalogoPrendas.add(prenda);
     }
 
     // Método para registrar cliente
     public boolean registrarCliente(Cliente cliente) {
-        if (cliente != null && !this.listaClientes.contains(cliente)) {
-            return this.listaClientes.add(cliente);
+        if (cliente == null) {
+            return false;
         }
-        return false;
+
+        for (Cliente c : this.listaClientes) {
+            if (c.getDocumentoIdentidad().equalsIgnoreCase(cliente.getDocumentoIdentidad())) {
+                return false;
+            }
+        }
+
+        return this.listaClientes.add(cliente);
     }
 
     // metodo para consultar prendas disponibles de una sucursal específica
@@ -172,4 +186,5 @@ public class Empresa {
 
         return masVendida;
     }
+
 }
