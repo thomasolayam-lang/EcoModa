@@ -44,5 +44,31 @@ public class DetalleVenta {
                 ", venta=" + venta +
                 '}';
     }
-    //metodos
+    //                                          METODOS
+//metodo para calcular el precio unitario
+
+    public double calcularPrecioUnitario() {
+        Prenda prenda = this.inventario.getPrenda();
+        double precioBase = prenda.getPrecioBase();
+
+        // 1. Obtener recargo por categoría (% extra)
+        double porcentajeRecargo = prenda.getCategoriaPrenda().getPorcentajeRecargo();
+        double precioConRecargo = precioBase * (1 + porcentajeRecargo);
+
+        // 2. Obtener descuento por membresía del cliente (% descuento)
+        double porcentajeDescuento = 0.0;
+        if (this.venta != null && this.venta.getCliente() != null) {
+            porcentajeDescuento = this.venta.getCliente().getMembresia().getPorcentajeDescuento();
+        }
+
+        // 3. Aplicar descuento sobre el precio con recargo
+        return precioConRecargo * (1 - porcentajeDescuento);
+    }
+
+//metodo para calcular el subtotal
+public double calcularSubTotal() {
+    return this.cantidad * calcularPrecioUnitario();
+}
+
+
 }
